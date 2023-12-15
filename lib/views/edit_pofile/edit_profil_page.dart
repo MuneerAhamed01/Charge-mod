@@ -101,90 +101,94 @@ class EditUserPage extends StatelessWidget {
           );
         },
       ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 26),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                'Completing Your Profile',
-                style: Theme.of(context).textTheme.titleSmall,
+      bottomSheet: Container(
+        color: Theme.of(context).colorScheme.background,
+
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 26),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  'Completing Your Profile',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                'This action will reflect in your activities and payments after saving. we ask for email details for recieving monthly activity and notifications.',
-                style: Theme.of(context).textTheme.bodySmall,
+              const SizedBox(height: 4),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  'This action will reflect in your activities and payments after saving. we ask for email details for recieving monthly activity and notifications.',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
-            ),
-            const SizedBox(height: 13),
-            BlocConsumer<EditProfileBloc, EditProfileState>(
-              listener: (context, state) {
-                if (state is EditProfileErrorState) {
-                  showCustomSnackbar(context, state.errorMessage);
-                  return;
-                }
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => RepositoryProvider(
-                      create: (context) =>
-                          LocationRepository(dio: BaseDioService.instance.dio),
-                      child: MultiBlocProvider(
-                        providers: [
-                          BlocProvider(create: (context) => BottomNavBloc()),
-                          BlocProvider(
-                            create: (context) =>
-                                ProfileBlocBloc(context.read<UserRepository>()),
-                          ),
-                          BlocProvider(
-                            create: (context) => LocationBloc(
-                                context.read<LocationRepository>()),
-                          ),
-                          BlocProvider(
-                            create: (context) => LogoutBloc(
-                                context.read<AuthRepository>(),
-                                context.read<UserRepository>()),
-                          ),
-                        ],
-                        child: const MainScreen(),
+              const SizedBox(height: 13),
+              BlocConsumer<EditProfileBloc, EditProfileState>(
+                listener: (context, state) {
+                  if (state is EditProfileErrorState) {
+                    showCustomSnackbar(context, state.errorMessage);
+                    return;
+                  }
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => RepositoryProvider(
+                        create: (context) =>
+                            LocationRepository(dio: BaseDioService.instance.dio),
+                        child: MultiBlocProvider(
+                          providers: [
+                            BlocProvider(create: (context) => BottomNavBloc()),
+                            BlocProvider(
+                              create: (context) =>
+                                  ProfileBlocBloc(context.read<UserRepository>()),
+                            ),
+                            BlocProvider(
+                              create: (context) => LocationBloc(
+                                  context.read<LocationRepository>()),
+                            ),
+                            BlocProvider(
+                              create: (context) => LogoutBloc(
+                                  context.read<AuthRepository>(),
+                                  context.read<UserRepository>()),
+                            ),
+                          ],
+                          child: const MainScreen(),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-              builder: (context, state) {
-                final formState = context.read<FormFieldBloc>().state;
-                return IgnorePointer(
-                  ignoring: state is EditProfileLoadingState ||
-                      formState is! FormFillState,
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 38,
-                    child: PrimaryButton(
-                      isLoading: state is EditProfileLoadingState,
-                      buttonText: 'Save Changes',
-                      onTap: () {
-                        final form = formState as FormFillState;
-                        context.read<EditProfileBloc>().add(
-                              EditProfileDoneEvent(
-                                firstName: form.firstName,
-                                lastName: form.lastName,
-                                email: form.email,
-                                mobileNumber: form.mobileNumber,
-                              ),
-                            );
-                      },
+                  );
+                },
+                builder: (context, state) {
+                  final formState = context.read<FormFieldBloc>().state;
+                  return IgnorePointer(
+                    ignoring: state is EditProfileLoadingState ||
+                        formState is! FormFillState,
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 38,
+                      child: PrimaryButton(
+                        isLoading: state is EditProfileLoadingState,
+                        buttonText: 'Save Changes',
+                        onTap: () {
+                          final form = formState as FormFillState;
+                          context.read<EditProfileBloc>().add(
+                                EditProfileDoneEvent(
+                                  firstName: form.firstName,
+                                  lastName: form.lastName,
+                                  email: form.email,
+                                  mobileNumber: form.mobileNumber,
+                                ),
+                              );
+                        },
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 26),
-          ],
+                  );
+                },
+              ),
+              const SizedBox(height: 26),
+            ],
+          ),
         ),
       ),
     );

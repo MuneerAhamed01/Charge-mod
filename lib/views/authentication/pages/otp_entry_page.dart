@@ -108,26 +108,30 @@ class _OtpEntryScreenState extends State<OtpEntryScreen> {
       bottomSheet: BlocConsumer<AuthBloc, AuthBlocState>(
         listener: _authListener,
         builder: (context, state) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 45)
-                    .copyWith(bottom: 20),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 43,
-                  child: PrimaryButton(
-                    isLoading: state is AuthLoadingState,
-                    buttonText: 'continue'.toUpperCase(),
-                    onTap: () {
-                      if (otp == null) return;
-                      context.read<AuthBloc>().add(OnSubmitOtpEvent(otp!));
-                    },
+          return Container(
+        color: Theme.of(context).colorScheme.background,
+
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 45)
+                      .copyWith(bottom: 20),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 43,
+                    child: PrimaryButton(
+                      isLoading: state is AuthLoadingState,
+                      buttonText: 'continue'.toUpperCase(),
+                      onTap: () {
+                        if (otp == null) return;
+                        context.read<AuthBloc>().add(OnSubmitOtpEvent(otp!));
+                      },
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           );
         },
       ),

@@ -36,7 +36,7 @@ class SplashScreen extends StatelessWidget {
           bottomSheet: Container(
             alignment: Alignment.bottomCenter,
             height: 60,
-            color: ColorTheme.color(state is LightThemeState).primaryColorDark,
+            color: Theme.of(context).colorScheme.background,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

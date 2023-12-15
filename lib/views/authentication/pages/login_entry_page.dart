@@ -150,45 +150,48 @@ class LoginEntry extends StatelessWidget {
           );
         },
       ),
-      bottomSheet: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Center(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    text: 'By Continuing you agree to our\n',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(height: 1.4),
-                    children: [
-                      TextSpan(
-                          text: 'Terms & Condition',
+      bottomSheet: Container(
+        color: Theme.of(context).colorScheme.background,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                      text: 'By Continuing you agree to our\n',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(height: 1.4),
+                      children: [
+                        TextSpan(
+                            text: 'Terms & Condition',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(
+                                    color: ColorTheme.color().primaryColor),
+                            recognizer: TapGestureRecognizer()..onTap = () {}),
+                        TextSpan(
+                            text: ' and ',
+                            style: Theme.of(context).textTheme.bodyLarge),
+                        TextSpan(
+                          text: 'Privacy and Policy',
+                          recognizer: TapGestureRecognizer()..onTap = () {},
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
-                              ?.copyWith(
-                                  color: ColorTheme.color().primaryColor),
-                          recognizer: TapGestureRecognizer()..onTap = () {}),
-                      TextSpan(
-                          text: ' and ',
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      TextSpan(
-                        text: 'Privacy and Policy',
-                        recognizer: TapGestureRecognizer()..onTap = () {},
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(color: ColorTheme.color().primaryColor),
-                      )
-                    ]),
+                              ?.copyWith(color: ColorTheme.color().primaryColor),
+                        )
+                      ]),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
