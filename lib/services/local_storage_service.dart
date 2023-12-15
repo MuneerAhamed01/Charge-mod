@@ -52,6 +52,10 @@ class LocalStorageService {
     return await _sharedPreferences.setBool(_MyLocalKeys.onboarding, status);
   }
 
+  Future<void> logOut() async {
+    _sharedPreferences.remove(_MyLocalKeys.userStatus);
+  }
+
   /// Conclude the onboarding shown only first time when screen is appeared
   bool getOnBoardingStatus() {
     return _sharedPreferences.getBool(_MyLocalKeys.onboarding) ?? false;

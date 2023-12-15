@@ -52,7 +52,7 @@ class LoginEntry extends StatelessWidget {
                         color: ColorTheme.color().primaryColor,
                         height: 1),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 41),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 33),
                     child: Row(

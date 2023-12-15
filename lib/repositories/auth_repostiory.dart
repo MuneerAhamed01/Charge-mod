@@ -74,4 +74,20 @@ class AuthRepository {
       rethrow;
     }
   }
+
+  Future<void> logOut() async {
+    try {
+      await dio.post(ApiService.api('logout',ignoreAppVersion: true),data: {
+        'refreshToken': _currentUser?.refreshToken
+      });
+      LocalStorageService.instance.logOut();
+
+      _currentUser = null;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      rethrow;
+    }
+  }
 }

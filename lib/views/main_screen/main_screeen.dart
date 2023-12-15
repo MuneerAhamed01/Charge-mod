@@ -33,59 +33,74 @@ class MainScreen extends StatelessWidget {
               );
             }
             return Scaffold(
+              extendBody: true,
               body: pages[state.index],
-              bottomNavigationBar: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: BottomNavigationBar(
-                  onTap: (value) {
-                    context
-                        .read<BottomNavBloc>()
-                        .add(BottomNavigationChangeEvent(value));
-                  },
-                  currentIndex: state.index,
-                  selectedLabelStyle:
-                      Theme.of(context).textTheme.displayMedium?.copyWith(
-                            fontSize: 12,
-                            color: ColorTheme.color().primaryColor,
-                            fontWeight: FontWeight.w300,
-                          ),
-                  unselectedLabelStyle:
-                      Theme.of(context).textTheme.displayMedium?.copyWith(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                            color: Theme.of(context).focusColor,
-                          ),
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  type: BottomNavigationBarType.fixed,
-                  items: [
-                    BottomNavigationBarItem(
-                        icon: _buildSvg(
-                            SvgAssets.homeIcon, context, state.index == 0),
-                        label: 'Home'),
-                    BottomNavigationBarItem(
-                        icon: Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: _buildSvg(SvgAssets.activityIcon, context,
-                              state.index == 1),
-                        ),
-                        label: 'Activity'),
-                    BottomNavigationBarItem(
-                        icon: Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: _buildSvg(SvgAssets.communityIcon, context,
-                              state.index == 2),
-                        ),
-                        label: 'Community'),
-                    BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: _buildSvg(
-                            SvgAssets.profileIcon, context, state.index == 3),
-                      ),
-                      label: 'Profile',
+              bottomNavigationBar: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.background,
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(16)),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+                  child: Theme(
+                    data: ThemeData(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                     ),
-                  ],
+                    child: BottomNavigationBar(
+                      onTap: (value) {
+                        context
+                            .read<BottomNavBloc>()
+                            .add(BottomNavigationChangeEvent(value));
+                      },
+                      currentIndex: state.index,
+                      selectedLabelStyle:
+                          Theme.of(context).textTheme.displayMedium?.copyWith(
+                                fontSize: 12,
+                                color: ColorTheme.color().primaryColor,
+                                fontWeight: FontWeight.w300,
+                              ),
+                      unselectedLabelStyle:
+                          Theme.of(context).textTheme.displayMedium?.copyWith(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                color: Theme.of(context).focusColor,
+                              ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      type: BottomNavigationBarType.fixed,
+                      items: [
+                        BottomNavigationBarItem(
+                            icon: _buildSvg(
+                                SvgAssets.homeIcon, context, state.index == 0),
+                            label: 'Home'),
+                        BottomNavigationBarItem(
+                            icon: Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: _buildSvg(SvgAssets.activityIcon, context,
+                                  state.index == 1),
+                            ),
+                            label: 'Activity'),
+                        BottomNavigationBarItem(
+                            icon: Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: _buildSvg(SvgAssets.communityIcon, context,
+                                  state.index == 2),
+                            ),
+                            label: 'Community'),
+                        BottomNavigationBarItem(
+                          icon: Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: _buildSvg(SvgAssets.profileIcon, context,
+                                state.index == 3),
+                          ),
+                          label: 'Profile',
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             );

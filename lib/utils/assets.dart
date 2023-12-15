@@ -59,4 +59,6 @@ final class ImageAssets {
 
   static const String onboardingBackground =
       'assets/images/onboarding_background.png';
+
+      static const String map = 'assets/images/map.png';
 }

@@ -51,7 +51,14 @@ class UserRepository {
       rethrow;
     }
   }
+
+
+  void logOut(){
+    _currentUser = null;
+  }
 }
+
+
 
 extension UserData on BuildContext {
   User? get user => read<UserRepository>()._currentUser;

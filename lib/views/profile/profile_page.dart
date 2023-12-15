@@ -1,9 +1,15 @@
+import 'package:charge_mod/repositories/auth_repostiory.dart';
 import 'package:charge_mod/repositories/user_repostiroy.dart';
 import 'package:charge_mod/utils/assets.dart';
 import 'package:charge_mod/utils/colors.dart';
+import 'package:charge_mod/views/authentication/bloc/auth_bloc/auth_bloc.dart';
+import 'package:charge_mod/views/authentication/bloc/mobile_number_bloc/mobile_number_bloc.dart';
+import 'package:charge_mod/views/authentication/pages/login_entry_page.dart';
+import 'package:charge_mod/views/profile/log_out_bloc/log_out_bloc.dart';
 import 'package:charge_mod/views/profile/utils/profile_items.dart';
 import 'package:charge_mod/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -74,18 +80,42 @@ class ProfilePage extends StatelessWidget {
 
             const SizedBox(height: 21),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22),
-              child: SizedBox(
-                height: 38,
-                width: double.infinity,
-                child: PrimaryButton(
-                  buttonText: 'Logout',
-                  onTap: () {},
-                  icon: SvgAssets.logOutIcon,
+            BlocConsumer<LogoutBloc, LogoutState>(listener: (context, state) {
+              if (state is LogoutSuccessState) {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (_) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                              create: (_) =>
+                                  AuthBloc(context.read<AuthRepository>())),
+                          BlocProvider(create: (_) => MobileNumberBloc()),
+                        ],
+                        child: const LoginEntry(),
+                      ),
+                    ),
+                    (route) => false);
+              }
+            }, builder: (_, state) {
+              return IgnorePointer(
+                ignoring: state is LogoutLoadingState,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
+                  child: SizedBox(
+                    height: 38,
+                    width: double.infinity,
+                    child: PrimaryButton(
+                      isLoading: state is LogoutLoadingState,
+                      buttonText: 'Logout',
+                      onTap: () {
+                        context.read<LogoutBloc>().add(LogoutTapEvent());
+                      },
+                      icon: SvgAssets.logOutIcon,
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
             const SizedBox(height: 45),
 
             SvgPicture.asset(

@@ -35,7 +35,7 @@ class BaseDioService {
     try {
       if (refresh) {
         final response = await _dio.post(
-          ApiService.api('refresh', '0.0.8'),
+          ApiService.api('refresh',appVersion:  '0.0.8'),
           data: {'refreshToken': refreshToken},
         );
         if (response.statusCode == 200) {

@@ -48,11 +48,11 @@ class OnboardingItem extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Transform.translate(
-              offset: const Offset(-10, 0),
+              offset: const Offset(-100, 0),
               child: Image.asset(
                 image,
                 // fit: BoxFit.cover,
-                width: 280,
+                width: 1000,
                 height: 300,
               ),
             ),

@@ -1,14 +1,18 @@
 import 'package:charge_mod/repositories/auth_repostiory.dart';
+import 'package:charge_mod/repositories/location_repostiory.dart';
 import 'package:charge_mod/repositories/user_repostiroy.dart';
+import 'package:charge_mod/services/dio_service.dart';
 import 'package:charge_mod/utils/assets.dart';
 import 'package:charge_mod/utils/snackbar.dart';
 import 'package:charge_mod/views/authentication/bloc/auth_bloc/auth_bloc.dart';
 import 'package:charge_mod/views/authentication/bloc/recent_otp_bloc/resend_otp_bloc.dart';
 import 'package:charge_mod/views/edit_pofile/bloc/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:charge_mod/views/edit_pofile/bloc/form_field_bloc/form_field_bloc.dart';
+import 'package:charge_mod/views/home_screen/bloc/location_bloc/location_bloc.dart';
 import 'package:charge_mod/views/main_screen/bloc/bottom_nav_bloc/bottom_nav_bloc.dart';
 import 'package:charge_mod/views/main_screen/bloc/profile_bloc/profile_bloc_bloc.dart';
 import 'package:charge_mod/views/main_screen/main_screeen.dart';
+import 'package:charge_mod/views/profile/log_out_bloc/log_out_bloc.dart';
 import 'package:charge_mod/widgets/custom_otp_field.dart';
 import 'package:charge_mod/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -198,12 +202,27 @@ class _OtpEntryScreenState extends State<OtpEntryScreen> {
       } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => MultiBlocProvider(
-              providers: [
-                BlocProvider(create: (context) => BottomNavBloc()),
-                BlocProvider(create: (context) => ProfileBlocBloc(userRepo)),
-              ],
-              child: const MainScreen(),
+            builder: (context) => RepositoryProvider(
+              create: (context) =>
+                  LocationRepository(dio: BaseDioService.instance.dio),
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (context) => BottomNavBloc()),
+                  BlocProvider(
+                    create: (context) =>
+                        ProfileBlocBloc(context.read<UserRepository>()),
+                  ),
+                  BlocProvider(
+                    create: (context) =>
+                        LocationBloc(context.read<LocationRepository>()),
+                  ),
+                   BlocProvider(
+                    create: (context) =>
+                        LogoutBloc(context.read<AuthRepository>(),context.read<UserRepository>()),
+                  ),
+                ],
+                child: const MainScreen(),
+              ),
             ),
           ),
         );
