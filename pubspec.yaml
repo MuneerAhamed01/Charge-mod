@@ -22,11 +22,17 @@ dependencies:
   equatable: ^2.0.5
   shared_preferences: ^2.2.2
   carousel_slider: ^4.2.1
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/appIcon.png"
 
 flutter:
   # The following line ensures that the Material Icons font is
